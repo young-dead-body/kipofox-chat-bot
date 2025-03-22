@@ -21,8 +21,8 @@ class JsonStorage(BaseStorage):
     def save(self, chat_id: int) -> bool:
         try:
             with self.file_path.open('wb') as f:
-                wrapped_f = io.TextIOWrapper(f, encoding='utf-8')
-                json.dump({'chat_id': chat_id}, wrapped_f, ensure_ascii=False)
+                data = json.dumps({'chat_id': chat_id}, ensure_ascii=False)
+                f.write(data.encode('utf-8'))
             return True
         except (IOError, TypeError) as e:
             print(f"Ошибка сохранения: {str(e)}")
